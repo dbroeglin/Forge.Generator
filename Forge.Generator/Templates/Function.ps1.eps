@@ -1,0 +1,51 @@
+function <%= $Name %> {
+    <#
+    .SYNOPSIS
+        TODO.
+
+    .DESCRIPTION
+        TODO: description.
+
+    .EXAMPLE
+        <%= $Name %> -Name MyName 
+
+    .PARAMETER Name
+        TODO.
+
+    .PARAMETER Path
+        TODO.
+
+<% $Parameters | ForEach { %>
+    .PARAMETER <%= $_ %>
+        <%= $_ %> description.
+
+<% } %>
+    #>
+    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact='Low')]
+    Param(
+        [Parameter(Mandatory = $true)]
+        [String]$Name,
+
+        [String]$Path = "$Name"<%= if ($Parameters) { "," } %>
+<% $Parameters | ForEach { $i = 1 } { %>
+        $<%= $_ %><%= if ($i++ -lt $Parameters.length) { ",`n" } %>
+<% } %>
+    )
+    Begin {
+        Initialize-ForgeContext -SourceRoot (Join-Path $PSScriptRoot "Templates") `
+            -DestinationPath $Path
+    }
+    Process {
+        if (!$PSCmdlet.ShouldProcess($Name, "Create <%= $Name %>")) {
+            return
+        }
+
+        Set-ForgeBinding @{
+            Name          = $Name
+            # More variables
+        }
+
+        # New-ForgeDirectory -Destination Test > $Null
+        # Copy-ForgeFile -Source "README.md"
+    }
+}
