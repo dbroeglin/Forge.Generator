@@ -31,10 +31,10 @@ function New-ForgeGenerator {
         The path where the new module is created.
 
     .PARAMETER Description
-        Description of the generated module.   
+        Description of the generator.   
 
     .PARAMETER License
-        License to add to the generated module.
+        License to add to the generator.
 
         Allowed values are:
         - Apache : Apache License
@@ -44,14 +44,17 @@ function New-ForgeGenerator {
         Name to use as module author.
 
     .PARAMETER Email
-        Email to use for the generated module.   
+        Email to use for the generator.
+
+    .PARAMETER Git
+        If true add a .gitignore file to the generator.   
     #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact='Low')]
     Param(
         [Parameter(Mandatory = $true)]
         [String]$Name,
 
-        [String]$Path = $Name,
+        [String]$Path = "$Name",
 
         [String]$Description = "$Name module",
 
@@ -60,7 +63,9 @@ function New-ForgeGenerator {
 
         [String]$Author,
 
-        [String]$Email
+        [String]$Email,
+
+        [Switch]$Git
     )
     Begin {
         Initialize-ForgeContext -SourceRoot (Join-Path $PSScriptRoot "Templates") `
@@ -82,8 +87,11 @@ function New-ForgeGenerator {
             CopyrightYear = $CopyrightYear
         }
 
-        New-ForgeModule -Name $Name -Description $Description -Email $Email -Author $Author -License $License
+        New-ForgeModule -Name $Name -Path (Get-ForgeContext).DestinationPath `
+            -Description $Description -Email $Email -Author $Author -License $License `
+            -Git:$Git
 
-        New-ForgeDirectory -Destination (Join-Path $Name "Templates")
+        New-ForgeDirectory -Destination (Join-Path $Name "Templates") > $Null
+        Copy-ForgeFile -Source "README.md"
     }
 }
