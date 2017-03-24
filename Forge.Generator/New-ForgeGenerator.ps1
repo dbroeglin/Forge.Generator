@@ -89,6 +89,7 @@ function New-ForgeGenerator {
 
         New-ForgeModule -Name $Name -Path (Get-ForgeContext).DestinationPath `
             -Description $Description -Email $Email -Author $Author -License $License `
+            -Layout ModuleName `
             -Git:$Git
 
         New-ForgeDirectory -Destination (Join-Path $Name "Templates") > $Null
