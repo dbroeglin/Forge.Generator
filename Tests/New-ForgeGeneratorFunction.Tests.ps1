@@ -26,6 +26,14 @@ Describe "New-ForgeGeneratorFunction" {
             $FunctionPath     | Should Contain '\$c1'
             $FunctionTestsPath | Should Exist
         }
+
+        it "should fail if 'Name' parameter is in the list of parameters" {
+            $FunctionPath = Join-Path $ModulePath "$FunctionName.ps1"
+            $FunctionTestsPath = Join-Path Tests "$FunctionName.Tests.ps1"
+            {
+                New-ForgeGeneratorFunction -Name $FunctionName -Parameter a1,Name,b1,c1
+            } | Should Throw "Parameter 'name' is always added"
+        }        
     }
 
     Context "-Name $FunctionName" {

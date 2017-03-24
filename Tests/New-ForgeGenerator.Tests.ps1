@@ -54,9 +54,9 @@ Describe "New-ForgeGenerator" {
         New-ForgeGenerator @Params -License Apache
 
         It "should create an Apache LICENSE file" {
-            "$TestPath\LICENSE" | Should Exist
-            "$TestPath\LICENSE" | Should Contain "Apache License"            
-            "$TestPath\LICENSE" | Should Contain "$(Get-Date -UF %Y) Jane Doe"
+            "$TestPath\LICENSE.txt" | Should Exist
+            "$TestPath\LICENSE.txt" | Should Contain "Apache License"            
+            "$TestPath\LICENSE.txt" | Should Contain "$(Get-Date -UF %Y) Jane Doe"
         }
     }
 
@@ -64,9 +64,9 @@ Describe "New-ForgeGenerator" {
         New-ForgeGenerator @Params -License MIT
 
         It "should create a MIT LICENSE file" {
-            "$TestPath\LICENSE" | Should Exist
-            "$TestPath\LICENSE" | Should Contain "MIT License"
-            "$TestPath\LICENSE" | Should Contain "$(Get-Date -UF %Y) Jane Doe"
+            "$TestPath\LICENSE.txt" | Should Exist
+            "$TestPath\LICENSE.txt" | Should Contain "MIT License"
+            "$TestPath\LICENSE.txt" | Should Contain "$(Get-Date -UF %Y) Jane Doe"
         }
     }
 
