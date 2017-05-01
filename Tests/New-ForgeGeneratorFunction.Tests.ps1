@@ -13,11 +13,12 @@ Describe "New-ForgeGeneratorFunction" {
     $TestBase   = Setup -Dir $ModuleName -Passthru
 
     Context "-Name $FunctionName -Parameter a,b,c" {
-        $FunctionName = "TestFunction1"
-
-        it "should generate a function file with parameters" {
+        BeforeEach {
+            $FunctionName = "TestFunction1"
             $FunctionPath = Join-Path $ModulePath "$FunctionName.ps1"
             $FunctionTestsPath = Join-Path Tests "$FunctionName.Tests.ps1"
+        }
+        it "should generate a function file with parameters" {
 
             New-ForgeGeneratorFunction -Name $FunctionName -Parameter a1,b1,c1
             $FunctionPath     | Should Exist
@@ -28,11 +29,15 @@ Describe "New-ForgeGeneratorFunction" {
         }
 
         it "should fail if 'Name' parameter is in the list of parameters" {
-            $FunctionPath = Join-Path $ModulePath "$FunctionName.ps1"
-            $FunctionTestsPath = Join-Path Tests "$FunctionName.Tests.ps1"
             {
                 New-ForgeGeneratorFunction -Name $FunctionName -Parameter a1,Name,b1,c1
-            } | Should Throw "Parameter 'name' is always added"
+            } | Should Throw "Parameter 'Name' is always added"
+        }        
+
+        it "should fail if 'Path' parameter is in the list of parameters" {
+            {
+                New-ForgeGeneratorFunction -Name $FunctionName -Parameter a1,Path,b1,c1
+            } | Should Throw "Parameter 'Path' is always added"
         }        
     }
 

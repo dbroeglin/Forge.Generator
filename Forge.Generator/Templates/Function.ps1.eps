@@ -10,16 +10,16 @@ function <%= $Name %> {
         <%= $Name %> -Name MyName 
 
     .PARAMETER Name
-        TODO.
+        TODO: Name parameter description.
 
     .PARAMETER Path
-        TODO.
+        TODO: Path parameter description.
 
-<% $Parameters | ForEach { %>
+<% $Parameters | ForEach { -%>
     .PARAMETER <%= $_ %>
-        <%= $_ %> description.
+        TODO: <%= $_ %> parameter description.
 
-<% } %>
+<% } -%>
     #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact='Low')]
     Param(
@@ -27,9 +27,10 @@ function <%= $Name %> {
         [String]$Name,
 
         [String]$Path = "$Name"<%= if ($Parameters) { "," } %>
-<% $Parameters | ForEach { $i = 1 } { %>
+<% $Parameters | ForEach { $i = 1 } { -%>
+
         $<%= $_ %><%= if ($i++ -lt $Parameters.length) { ",`n" } %>
-<% } %>
+<% } -%>
     )
     Begin {
         Initialize-ForgeContext -SourceRoot (Join-Path $PSScriptRoot "Templates") `

@@ -79,10 +79,13 @@ function New-ForgeGeneratorFunction {
             throw "PSD file '$PsdPath' does not exist"
         }
         if ($Parameter.Contains('Name')) {
-            throw "Parameter 'name' is always added to the generated command. " +
+            throw "Parameter 'Name' is always added to the generated command. " +
               "It should not be added to the Parameter list."
         }
-
+        if ($Parameter.Contains('Path')) {
+            throw "Parameter 'Path' is always added to the generated command. " +
+              "It should not be added to the Parameter list."
+        }
 
         Set-ForgeBinding @{
             Name        = $Name
