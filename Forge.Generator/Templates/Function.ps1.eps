@@ -26,7 +26,7 @@ function <%= $Name %> {
         [Parameter(Mandatory = $true)]
         [String]$Name,
 
-        [String]$Path = "$Name"<%= if ($Parameters) { "," } %>
+        [String]$Path = ".\"<%= if ($Parameters) { "," } %>
 <% $Parameters | ForEach { $i = 1 } { %>
         $<%= $_ %><%= if ($i++ -lt $Parameters.length) { ",`n" } %>
 <% } %>
